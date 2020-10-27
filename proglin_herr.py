@@ -98,4 +98,7 @@ def genFilaObjetivo(objetivo,holg_ex):
     return fila
 
 def generaProblema(problema):
-    print("generar problema")
+    if problema == 0:
+        return(3,2, [[[1,0,0,0],2,5,0],[[1,1,0,0],2,8,0],[[0,1,0,0],2,4,0]])
+    if problema == 1:
+        return(2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0]], [1, 1], 0)

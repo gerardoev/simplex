@@ -28,7 +28,7 @@ def simplex(n_variables,restricciones,objetivo):
     return (renglones)
 
 def dosFases():
-    _, n_variables, restricciones, objetivo, maxmin = pl.ingresaProblema()
+    _, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
     print(simplex(n_variables,restricciones,objetivo))
 
 print(pl.ingresaProblema())
