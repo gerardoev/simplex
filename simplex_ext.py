@@ -56,8 +56,15 @@ def ingresaProblema():
 
     return (n_restricciones,n_variables,restricciones,objetivo,maxmin)
 
-def crearTabla(restricciones,holg_ex,n_var,objetivo):
-    base = {}
+def crearTabla(restricciones,n_var_ext,n_var,objetivo,base):
+    """
+        Recibe:
+            restricciones
+            n_var_ext: (int) el número de variables que se agregaron ya sean exceso, holgura o y
+            n_var: (int) el número de variables originales
+            objetivo: (list) los coef de la f.o.
+            base: (dict) las variables que estrán en la base
+    """
     variables = {}
     renglones = {}
 
@@ -66,18 +73,12 @@ def crearTabla(restricciones,holg_ex,n_var,objetivo):
     for var in range(n_var):
         variables[pos] = f'x{var+1}'
         pos += 1
-    for var in range(holg_ex):
-        variables[pos] = f's{var+1}'
-        pos += 1
-    #Generar base
-    for var in range(holg_ex):
-        base[var] = f's{var+1}'
 
     #Generamos el renglón con la función objetivo pero con signos cambiados
-    renglones['ro'] = np.array(genFilaObjetivo(objetivo,holg_ex)) *-1
+    renglones['ro'] = np.array(genFilaObjetivo(objetivo,n_var_ext)) *-1
     #Generar renglones
     for reng in range(len(restricciones)):
-        renglones[base[reng]] = (np.array(genFila(restricciones[reng],holg_ex,reng)))
+        renglones[base[reng]] = (np.array(genFila(restricciones[reng],n_var_ext,reng)))
 
     return (variables, renglones)
 
@@ -196,3 +197,5 @@ def encuentraPivote(col,renglones):
     return menor[3], menor[2], False
 
 #def añadirExceso(restricciones):
+
+#def generarBase():
