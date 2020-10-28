@@ -99,9 +99,9 @@ def genFilaObjetivo(variables,obj):
             fila [list] [0,1,1,...] una lista que representa la fila objetivo
     """
     fila = []
-    for var in variables.values:
-        if variables.get(var) != None:
-            fila.append(variables[var])
+    for var in variables.values():
+        if obj.get(var) != None:
+            fila.append(obj[var])
         else:
             fila.append(0)
     fila.append(0) # z inicial es cero
@@ -109,9 +109,9 @@ def genFilaObjetivo(variables,obj):
 
 def generaProblema(problema):
     if problema == 0:
-        return(3,2, [[[1,0],2,5,0],[[1,1],2,8,0],[[0,1],2,4,0,0]],{"X1":1,"X2":3},0)
+        return(3,2, [[[1,0],2,5,0,0],[[1,1],2,8,0,0],[[0,1],2,4,0,0]],{"X1":1,"X2":3},0)
     if problema == 1:
-        return(2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
+        return(2, 2, [[[1, 1], 3, 4, 0,0], [[1, 2], 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
 
 def generarVariables(restricciones):
     """

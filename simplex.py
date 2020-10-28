@@ -17,7 +17,7 @@ def simplex(n_variables,restricciones,objetivo,var_ext,base_v):
     positivos = False
 
     while positivos == False:
-        pl.toString(n_variables,renglones,objetivo,0)
+        #pl.toString(n_variables,renglones,objetivo,0)
         fo = renglones["ro"]
         # obtenemos el coef más negativo
         menor = min(fo)
