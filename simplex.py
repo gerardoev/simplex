@@ -3,6 +3,11 @@ import simplex_ext as pl
 import proglin_herr as herr
 
 def simplex(n_variables,restricciones,objetivo,var_ext,base_v):
+    """
+        Recibe
+            n_variables: (int) el número de variables originales
+            restricciones: ()
+    """
 
     variables, renglones = pl.crearTabla(restricciones,var_ext,n_variables,objetivo,base_v)
 
@@ -36,8 +41,9 @@ def dosFases(restricciones):
 
     #Fase 2
 
-_, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
+n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
 #convertimos a estándar
 rest,_ = pl.convertirEstandar(restricciones)
-print(rest)
-#print(simplex(n_variables,rest,objetivo,3,{0:"S1",1:"S2",2:"S3"}))
+base = pl.generarBase(0,n_restricciones)
+
+print(simplex(n_variables,rest,objetivo,n_restricciones,base))

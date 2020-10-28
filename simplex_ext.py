@@ -198,4 +198,10 @@ def encuentraPivote(col,renglones):
 
 #def añadirExceso(restricciones):
 
-#def generarBase():
+def generarBase(tipo, n_restricciones):
+    #{0:"S1",1:"S2",2:"S3"}
+    base = {}
+    if tipo == 0:#Tableau Simplex
+        for i in range(n_restricciones):
+            base[i] = f"S{i+1}"
+    return base
