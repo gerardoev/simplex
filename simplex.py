@@ -20,8 +20,11 @@ def simplex(restricciones,objetivo,var_ext,base_v):
     while positivos == False:
         #pl.toString(n_variables,renglones,objetivo,0)
         fo = renglones["ro"]
-        # obtenemos el coef más negativo
-        menor = min(fo)
+
+        # obtenemos el coef más negativo (Descartar Z)
+        list = fo.tolist()
+        list.pop(-1)
+        menor = min(list)
 
         # obtenemos su pos en el vector
         pos_col = np.where(fo == menor)[0][0]
@@ -32,7 +35,9 @@ def simplex(restricciones,objetivo,var_ext,base_v):
             print("Solución optima no acotada")
             break;
         # Comprobar si los coef ya son positivos
-        positivos = pl.todosPositivos(renglones["ro"])
+        list = renglones["ro"].tolist()
+        list.pop(-1)
+        positivos = pl.todosPositivos(list)
     return (renglones)
 
 def dosFases(restricciones,n_variables,objetivo_original):
@@ -48,7 +53,10 @@ def dosFases(restricciones,n_variables,objetivo_original):
     #Fase 1
     objetivo = pl.genZ(rest)
     filas = simplex(rest,objetivo,num_holg, base)
-    print(filas)
+    if filas["ro"][-1] != 0:
+        print("No hay solución factible")
+        return
+
     #Fase 2
 
 
