@@ -90,10 +90,20 @@ def genFila(rest,holg_ex, pos):
     fila.append(rest[2])
     return fila
 
-def genFilaObjetivo(objetivo,holg_ex):
+def genFilaObjetivo(variables,obj):
+    """
+        Recibe
+            variables: (dict) {0:x1,1:x2...} un diccionario con las variables del tableau ordenadas
+            obj: (dict) {x1: 1, y1: -1, ...} un diccionario con los coefs de la f.o.
+        Regresa
+            fila [list] [0,1,1,...] una lista que representa la fila objetivo
+    """
     fila = []
-    fila.extend(objetivo) #agregamos los coef del objetivo
-    fila.extend([0]*holg_ex) #el resto se vuelve cero
+    for var in variables.values:
+        if variables.get(var) != None:
+            fila.append(variables[var])
+        else:
+            fila.append(0)
     fila.append(0) # z inicial es cero
     return fila
 
@@ -102,3 +112,23 @@ def generaProblema(problema):
         return(3,2, [[[1,0],2,5,0],[[1,1],2,8,0],[[0,1],2,4,0]],[1,3],0)
     if problema == 1:
         return(2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0]], [1, 1], 0)
+
+def generarVariables(restricciones):
+    """
+        Devuelve
+            vars: (dict) {0: "x1", 1: "x2",...}  todas las variables ordenadas
+    """
+    vars = {}
+    clave = 0
+    for i in range(len(restricciones[0][0])):
+        clave += 1
+        vars[i] = f'X{i+1}'
+    for i,rest in enumerate(restricciones):
+        if rest[3] != 0:
+            clave += 1
+            vars[clave] = f'S{i+1}'
+    for i,rest in enumerate(restricciones):
+        if rest[4] != 0:
+            clave += 1
+            vars[clave] = f'Y{i+1}'
+    return vars

@@ -16,7 +16,7 @@ def ingresaProblema():
     :return n_variables: (int) el número de variables dle problema
     :return restricciones: (list) una de tamaño n_restricciones que contiene cada restricción representada como otra lista.
                             Esta lista contiene, los coeficientes(List), la relación(int), el lado derecho(int) y 0 (int variables de exceso y holgura)
-    :return objetivo: (list) una lista con los coeficientes de la función objetivo
+    :return objetivo: (dict) {x1: 1, y1: -1, ...} los coefs de la f.o.
     :return maxmin: 0, si es de maximizar. 1, si es de minimizar
     """
 
@@ -25,7 +25,7 @@ def ingresaProblema():
     n_variables = -1
     maxmin = -1
     restricciones = []
-    objetivo = []
+    objetivo = {}
 
     while (n_restricciones < 0):
         n_restricciones = int(input("Ingresa el número de restricciones"))
@@ -52,35 +52,33 @@ def ingresaProblema():
     #Ingresar la función objetivo
     for var in range(n_variables):
         print(f'-------------FUNCIÓN OBJETIVO--------------')
-        objetivo.append(int(input(f"Ingresa el coeficiente de x{var + 1}")))
+        valor = int(input(f"Ingresa el coeficiente de x{var + 1}"))
+        objetivo[f'X{var+1}'] = valor
 
     return (n_restricciones,n_variables,restricciones,objetivo,maxmin)
 
-def crearTabla(restricciones,n_var_ext,n_var,objetivo,base):
+def crearTabla(restricciones,n_var_ext,objetivo,base):
     """
         Recibe:
             restricciones
             n_var_ext: (int) el número de variables que se agregaron ya sean exceso, holgura o y
-            n_var: (int) el número de variables originales
-            objetivo: (list) los coef de la f.o.
+            objetivo: (dict) {x1: 1, y1: -1, ...} los coef de la f.o.
             base: (dict) las variables que estrán en la base
     """
     variables = {}
     renglones = {}
 
-    # Generar vars
-    pos = 0
-    for var in range(n_var):
-        variables[pos] = f'x{var+1}'
-        pos += 1
+    variables = generarVariables(restricciones)
+
 
     #Generamos el renglón con la función objetivo pero con signos cambiados
-    renglones['ro'] = np.array(genFilaObjetivo(objetivo,n_var_ext)) *-1
+    renglones['ro'] = np.array(genFilaObjetivo(variables,objetivo)) *-1
     #Generar renglones
     for reng in range(len(restricciones)):
         renglones[base[reng]] = (np.array(genFila(restricciones[reng],n_var_ext,reng)))
 
     return (variables, renglones)
+
 
 def convertirEstandar(restricciones):
     nuevas_rest = copy.deepcopy(restricciones)
@@ -217,15 +215,22 @@ def genZ(rests):
     return objetivo
 
 
-def generarBase(tipo, n_restricciones):
+def generarBase(tipo, n_restricciones,restricciones):
     """
         Recibe:
             tipo: (int) 0 si es simplex, 1 Si es 2 fases
             n_restricciones: (int) el número de restricciones
+            restricciones: (List)
     """
     #{0:"S1",1:"S2",2:"S3"}
     base = {}
     if tipo == 0:#Tableau Simplex
         for i in range(n_restricciones):
             base[i] = f"S{i+1}"
+    if tipo == 1:
+        for i in range(n_restricciones):
+            if restricciones[i][-1] != 0:
+                base[i] = f"Y{i+1}"
+            else:
+                base[i] = f"S{i + 1}"
     return base
