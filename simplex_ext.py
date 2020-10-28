@@ -11,10 +11,10 @@ def todosPositivos(fo):
 def ingresaProblema():
     """
     Función para ingresa el problema por consola
-    Regresa -> (2, 2, [[[1, 1], 3, 4, 0,0], [[1, 2], 2, 2, 0,0]], {x1: 1, y1: -1}, 0)
+    Regresa -> (2, 2, [[{X1:1, X2:1}, 3, 4, 0,0], [{X1:1, X2:2}, 2, 2, 0,0]], {x1: 1, y1: -1}, 0)
     :return n_restricciones: (int) el número de restricciones ingresadas
     :return n_variables: (int) el número de variables dle problema
-    :return restricciones: (list) una de tamaño n_restricciones que contiene cada restricción representada como otra lista.
+    :return restricciones: (dict) una de tamaño n_restricciones que contiene cada restricción representada como otra lista.
                             Esta lista contiene, los coeficientes(List), la relación(int), el lado derecho(int) y 0 (int variables de exceso y holgura)
     :return objetivo: (dict) {x1: 1, y1: -1, ...} los coefs de la f.o.
     :return maxmin: 0, si es de maximizar. 1, si es de minimizar
@@ -38,10 +38,11 @@ def ingresaProblema():
     # se creara un objeto tipo [[1,1,1],2,200]
     for res in range(n_restricciones):
         rest = []
-        coefs = []
+        coefs = {}
         for var in range(n_variables):
             print(f'------------- restricción {res+1}--------------')
-            coefs.append(int(input(f"Ingresa el coeficiente de x{var+1}")))
+            valor = int(input(f"Ingresa el coeficiente de x{var+1}"))
+            coefs[f'X{var+1}'] = valor
         rest.append(coefs)
         tipo=int(input(f'Selecciona la el tipo de restricción\n1.\t=\n2.\t<=\n3.\t>='))
         rest.append(tipo)
@@ -75,8 +76,8 @@ def crearTabla(restricciones,n_var_ext,objetivo,base):
     #Generamos el renglón con la función objetivo pero con signos cambiados
     renglones['ro'] = np.array(genFilaObjetivo(variables,objetivo)) *-1
     #Generar renglones
-    for reng in range(len(restricciones)):
-        renglones[base[reng]] = (np.array(genFila(restricciones[reng],n_var_ext,reng)))
+    for pos,reng in enumerate(restricciones):
+        renglones[base[pos]] = (np.array(genFila(reng,variables, pos+1)))
 
     return (variables, renglones)
 
@@ -209,10 +210,10 @@ def añadirArtif(restricciones):
     return rest_copy
 
 def genZ(rests):
-    objetivo = []
-    for rest in rests:
+    objetivo = {}
+    for i,rest in enumerate(rests):
         if rest[-1] != 0:
-            objetivo.append(-1)
+            objetivo[f"Y{i+1}"] = -1
     return objetivo
 
 

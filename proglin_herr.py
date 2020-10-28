@@ -1,3 +1,4 @@
+
 def toString(n_variables,restricciones,objetivo,maxmin):
     """
     Función que convierte a string un problema para ser impreso
@@ -81,12 +82,21 @@ def mult_rest_menos_uno(rest):
     nueva_rest.append(rest[2] * -1)
     return nueva_rest
 
-def genFila(rest,holg_ex, pos):
+def genFila(rest,vars,posfila):
+    """
+        Recibe
+            rest: (list) [{"X1": 1, "X2": 2, ...}, ...] El diccionario con las variables iniciales
+            vars: (dict) {0: "X1", 1: "X2", ...} Todas las variables
+    """
     fila = []
-    fila.extend(rest[0]) #agregamos los coef originales
-    ceros = [0]*holg_ex
-    ceros[pos] = 1
-    fila.extend(ceros)
+    for var in vars.values():
+        if var[0] == "X":
+            fila.append(rest[0][var])
+        elif posfila == int(var[1]) and var[0] == "S":
+            fila.append(rest[3])
+        elif posfila == int(var[1]) and var[0] == "Y":
+            fila.append(rest[4])
+        else:fila.append(0)
     fila.append(rest[2])
     return fila
 
@@ -109,9 +119,9 @@ def genFilaObjetivo(variables,obj):
 
 def generaProblema(problema):
     if problema == 0:
-        return(3,2, [[[1,0],2,5,0,0],[[1,1],2,8,0,0],[[0,1],2,4,0,0]],{"X1":1,"X2":3},0)
+        return(3,2, [[{"X1":1,"X2": 0},2,5,0,0],[{"X1":1,"X2": 1},2,8,0,0],[{"X1":0, "X2":1},2,4,0,0]],{"X1":1,"X2":3},0)
     if problema == 1:
-        return(2, 2, [[[1, 1], 3, 4, 0,0], [[1, 2], 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
+        return(2, 2, [[{"X1":1, "X1":1}, 3, 4, 0,0], [{"X1":1, "X1":2}, 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
 
 def generarVariables(restricciones):
     """
