@@ -11,6 +11,7 @@ def simplex(n_variables,restricciones,objetivo):
     positivos = False
 
     while positivos == False:
+        pl.toString(n_variables,renglones,objetivo,0)
         fo = renglones["ro"]
         # obtenemos el coef más negativo
         menor = min(fo)
@@ -28,7 +29,8 @@ def simplex(n_variables,restricciones,objetivo):
     return (renglones)
 
 def dosFases():
-    _, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
+    _, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
     print(simplex(n_variables,restricciones,objetivo))
 
-print(pl.ingresaProblema())
+_, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
+print(simplex(n_variables,restricciones,objetivo))

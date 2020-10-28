@@ -102,7 +102,6 @@ def nuevoTableau(renglones,pos_col,variables):
 
   # Encontramos la columna
   clave_col = variables[pos_col]
-  print("Entra " + clave_col)
   # Encontramos la fila
   clave_fil, pivote,err = encuentraPivote(pos_col, renglones)
   if err == True:
@@ -138,7 +137,7 @@ def hacerCeros(clave_pivote, col, tableau):
     base.pop(clave_pivote)
 
     for (clave,fila) in base.items():
-        nuevo_tableau[clave]  = np.round_(fila - (fila[col]*nuevo_tableau[clave_pivote]),3)
+        nuevo_tableau[clave] = np.round_(fila - (fila[col]*nuevo_tableau[clave_pivote]), 3)
     return nuevo_tableau
 
 def convertirFilaPivote(tableau,pivote,clave_fil):
