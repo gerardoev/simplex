@@ -11,7 +11,7 @@ def todosPositivos(fo):
 def ingresaProblema():
     """
     Función para ingresa el problema por consola
-    Regresa -> (2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0]], [1, 1], 0)
+    Regresa -> (2, 2, [[[1, 1], 3, 4, 0,0], [[1, 2], 2, 2, 0,0]], {x1: 1, y1: -1}, 0)
     :return n_restricciones: (int) el número de restricciones ingresadas
     :return n_variables: (int) el número de variables dle problema
     :return restricciones: (list) una de tamaño n_restricciones que contiene cada restricción representada como otra lista.
@@ -48,6 +48,7 @@ def ingresaProblema():
         der = int(input(f"Ingresa el lado derecho"))
         rest.append(der)
         rest.append(0) #0 variables de holgura y exceso al inicio
+        rest.append(0)  # 0 variables artificiales
         restricciones.append(rest)
     #Ingresar la función objetivo
     for var in range(n_variables):
@@ -202,7 +203,7 @@ def añadirArtif(restricciones):
     rest_copy = copy.deepcopy(restricciones)
     for rest in rest_copy:
         if rest[1] == 1 or rest[1] == 3:
-            rest.append(1)
+            rest[4] = 1
         else:
             rest.append(0)
     return rest_copy

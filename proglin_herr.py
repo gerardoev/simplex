@@ -109,9 +109,9 @@ def genFilaObjetivo(variables,obj):
 
 def generaProblema(problema):
     if problema == 0:
-        return(3,2, [[[1,0],2,5,0],[[1,1],2,8,0],[[0,1],2,4,0]],[1,3],0)
+        return(3,2, [[[1,0],2,5,0],[[1,1],2,8,0],[[0,1],2,4,0,0]],{"X1":1,"X2":3},0)
     if problema == 1:
-        return(2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0]], [1, 1], 0)
+        return(2, 2, [[[1, 1], 3, 4, 0], [[1, 2], 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
 
 def generarVariables(restricciones):
     """

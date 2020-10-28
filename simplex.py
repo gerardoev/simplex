@@ -7,7 +7,7 @@ def simplex(n_variables,restricciones,objetivo,var_ext,base_v):
         Recibe
             n_variables: (int) el número de variables originales
             restricciones: (list) [[[coefs],igualdad,ladoDer,holg-ex,artif][res2]]
-            (dict) {x1: 1, y1: -1, ...}
+            objetivo: (dict) {x1: 1, y1: -1, ...}
             var_ext: (int) número de variables extras
             base_v: (dict) {0:"S1", 1:"S2"...} la lista de las variables de la base
     """
@@ -50,10 +50,13 @@ def dosFases(restricciones,n_variables,objetivo_original):
     #Fase 2
 
 
-n_restricciones, n_variables, restricciones, objetivo, maxmin = pl.ingresaProblema()
+#n_restricciones, n_variables, restricciones, objetivo, maxmin = pl.ingresaProblema()
 #convertimos a estándar
-#base = pl.generarBase(0,n_restricciones)
-dosFases(restricciones,n_variables,objetivo)
+#base = pl.generarBase(0,n_restricciones,restricciones)
+#dosFases(restricciones,n_variables,objetivo)
 
 #
-#print(simplex(n_variables,restricciones,objetivo,n_restricciones,base))
+n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
+base = pl.generarBase(0,n_restricciones,restricciones)
+rest, num_holg = pl.convertirEstandar(restricciones)
+print(simplex(n_variables,rest,objetivo,n_restricciones,base))
