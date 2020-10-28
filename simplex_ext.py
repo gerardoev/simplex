@@ -196,9 +196,26 @@ def encuentraPivote(col,renglones):
 
     return menor[3], menor[2], False
 
-#def añadirExceso(restricciones):
+def añadirArtif(restricciones):
+    """
+        Recibe:
+            restricciones: (list)[[[coefs],igualdad,ladoDer,holg-ex],[res2]]
+    """
+    rest_copy = copy.deepcopy(restricciones)
+    for rest in rest_copy:
+        if rest[1] == 1 or rest[1] == 3:
+            rest.append(1)
+        else:
+            rest.append(0)
+    return rest_copy
+
 
 def generarBase(tipo, n_restricciones):
+    """
+        Recibe:
+            tipo: (int) 0 si es simplex, 1 Si es 2 fases
+            n_restricciones: (int) el número de restricciones
+    """
     #{0:"S1",1:"S2",2:"S3"}
     base = {}
     if tipo == 0:#Tableau Simplex

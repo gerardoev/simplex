@@ -33,17 +33,18 @@ def simplex(n_variables,restricciones,objetivo,var_ext,base_v):
 
 def dosFases(restricciones):
     rest = restricciones.copy()
-
     #añadimos las de exceso
-    rest = pl.añadirExceso(rest)
+    rest = pl.añadirArtif(rest)
+    rest, _ = pl.convertirEstandar(rest)
 
     #Fase 1
 
     #Fase 2
 
-n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
+n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
 #convertimos a estándar
-rest,_ = pl.convertirEstandar(restricciones)
 base = pl.generarBase(0,n_restricciones)
+dosFases(restricciones)
 
-print(simplex(n_variables,rest,objetivo,n_restricciones,base))
+
+#print(simplex(n_variables,rest,objetivo,n_restricciones,base))
