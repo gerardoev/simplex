@@ -140,6 +140,22 @@ def hacerCeros(clave_pivote, col, tableau):
         nuevo_tableau[clave] = np.round_(fila - (fila[col]*nuevo_tableau[clave_pivote]), 3)
     return nuevo_tableau
 
+def hacerCerosBase(base,variables,renglones):
+    """
+      Recibe
+        base: (dict) {0:"Y1",1:"S2",...}
+        variables: (dict) {0:"X1",1:"X2":...}
+        renglones: {ro:array([0,0,0,1...]), renglon1: ...} el renglón objetivo en formato numpy arr
+      Devuelve
+        renglones_copy:
+    """
+    renglones_copy = copy.copy(renglones)
+    ro = renglones_copy["ro"]
+
+    for pos,clave in base.items():
+        if ro[getPosDict(variables,clave)] != 0:
+            renglones_copy["ro"] = renglones_copy["ro"] - renglones_copy[base[pos]]
+    return renglones_copy
 def convertirFilaPivote(tableau,pivote,clave_fil):
     """
     Convierte el pivote en 1 y multiplicando toda la fila por su inverso
@@ -206,7 +222,7 @@ def añadirArtif(restricciones):
         if rest[1] == 1 or rest[1] == 3:
             rest[4] = 1
         else:
-            rest.append(0)
+            rest[-1] = 0
     return rest_copy
 
 def genZ(rests):
@@ -215,7 +231,6 @@ def genZ(rests):
         if rest[-1] != 0:
             objetivo[f"Y{i+1}"] = -1
     return objetivo
-
 
 def generarBase(tipo, n_restricciones,restricciones):
     """
@@ -236,3 +251,4 @@ def generarBase(tipo, n_restricciones,restricciones):
             else:
                 base[i] = f"S{i + 1}"
     return base
+

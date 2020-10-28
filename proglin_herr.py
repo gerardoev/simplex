@@ -121,7 +121,7 @@ def generaProblema(problema):
     if problema == 0:
         return(3,2, [[{"X1":1,"X2": 0},2,5,0,0],[{"X1":1,"X2": 1},2,8,0,0],[{"X1":0, "X2":1},2,4,0,0]],{"X1":1,"X2":3},0)
     if problema == 1:
-        return(2, 2, [[{"X1":1, "X1":1}, 3, 4, 0,0], [{"X1":1, "X1":2}, 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
+        return(2, 2, [[{"X1":1, "X2":1}, 3, 4, 0,0], [{"X1":1, "X2":2}, 2, 2, 0,0]], {"X1":1, "X2":1}, 0)
 
 def generarVariables(restricciones):
     """
@@ -135,10 +135,16 @@ def generarVariables(restricciones):
         vars[i] = f'X{i+1}'
     for i,rest in enumerate(restricciones):
         if rest[3] != 0:
-            clave += 1
             vars[clave] = f'S{i+1}'
+            clave += 1
     for i,rest in enumerate(restricciones):
         if rest[4] != 0:
-            clave += 1
             vars[clave] = f'Y{i+1}'
+            clave += 1
     return vars
+
+def getPosDict(dict, clave):
+    for pos,valor in dict.items():
+        if valor == clave:
+            return pos
+    return -1

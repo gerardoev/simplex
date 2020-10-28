@@ -13,6 +13,8 @@ def simplex(restricciones,objetivo,var_ext,base_v):
 
     variables, renglones = pl.crearTabla(restricciones,var_ext,objetivo,base_v)
 
+    renglones = pl.hacerCerosBase(base_v,variables,renglones)
+
     positivos = False
 
     while positivos == False:
@@ -45,17 +47,18 @@ def dosFases(restricciones,n_variables,objetivo_original):
 
     #Fase 1
     objetivo = pl.genZ(rest)
-    print(simplex(rest,objetivo,num_holg, base))
+    filas = simplex(rest,objetivo,num_holg, base)
+    print(filas)
     #Fase 2
 
 
-#n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
+n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
 #convertimos a estándar
-#base = pl.generarBase(0,n_restricciones,restricciones)
-#dosFases(restricciones,n_variables,objetivo)
+base = pl.generarBase(0,n_restricciones,restricciones)
+dosFases(restricciones,n_variables,objetivo)
 
 #
-n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
-base = pl.generarBase(0,n_restricciones,restricciones)
-rest, num_holg = pl.convertirEstandar(restricciones)
-print(simplex(rest,objetivo,n_restricciones,base))
+#n_restricciones, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
+#base = pl.generarBase(0,n_restricciones,restricciones)
+#rest, num_holg = pl.convertirEstandar(restricciones)
+#print(simplex(rest,objetivo,n_restricciones,base))
