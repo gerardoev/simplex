@@ -209,6 +209,13 @@ def añadirArtif(restricciones):
             rest.append(0)
     return rest_copy
 
+def genZ(rests):
+    objetivo = []
+    for rest in rests:
+        if rest[-1] != 0:
+            objetivo.append(-1)
+    return objetivo
+
 
 def generarBase(tipo, n_restricciones):
     """
