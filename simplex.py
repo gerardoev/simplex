@@ -28,9 +28,17 @@ def simplex(n_variables,restricciones,objetivo):
         positivos = pl.todosPositivos(renglones["ro"])
     return (renglones)
 
-def dosFases():
-    _, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
-    print(simplex(n_variables,restricciones,objetivo))
+def dosFases(restricciones):
+    rest = restricciones.copy()
 
-_, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(0)
-print(simplex(n_variables,restricciones,objetivo))
+    #convertimos a estándar
+    rest = pl.convertirEstandar(restricciones)
+    #añadimos las de exceso
+    rest = pl.añadirExceso(rest)
+
+    #Fase 1
+
+    #Fase 2
+
+_, n_variables, restricciones, objetivo, maxmin = herr.generaProblema(1)
+dosFases(restricciones)

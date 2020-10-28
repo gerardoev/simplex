@@ -113,7 +113,6 @@ def nuevoTableau(renglones,pos_col,variables):
       else:
           pos_col = np.where(renglones["ro"] == menor)[0][0]
           return nuevoTableau(renglones,pos_col,variables)
-  print(f'Sale {clave_fil}')
   #hacemos el cambio (actualizar clave)
   renglones_copy[clave_col] = renglones_copy.pop(clave_fil)
   #Hacer 1 el pivote
@@ -195,3 +194,5 @@ def encuentraPivote(col,renglones):
             menor = el
 
     return menor[3], menor[2], False
+
+#def añadirExceso(restricciones):
